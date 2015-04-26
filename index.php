@@ -9,6 +9,6 @@
 	);
 	$pg->add_glue($glue);
 	
-	//$pg->publish(basename(__FILE__));
+	$pg->publish(basename(__FILE__));
 	echo "<pre>".print_r($pg->display(),1)."</pre>";
 ?>

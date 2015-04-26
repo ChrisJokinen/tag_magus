@@ -26,7 +26,7 @@
 		
 		public function display_page(){
 		
-		echo $this->dom->saveHTML();
+			echo $this->dom->saveHTML();
 		
 		} // display_page()
 		
@@ -87,6 +87,12 @@
 								else{
 									$this->html.= ' '.$atr.'="'.$val.'"';
 								}
+								
+								// Check that href and scr files exist in publish target and are up to date
+								$atr = strtolower($atr);
+								if( $atr=='src' || $atr=='href' ){
+									$this->verify_file($val);
+								}
 							}
 							$this->html.= ">";
 					}
@@ -97,6 +103,88 @@
 			}
 		
 		} // generate_output()
+		
+		
+		private function verify_file($fp){
+			
+			$copy = false;
+			
+			// I just want valid local paths
+			$host = parse_url($fp, PHP_URL_HOST);
+			
+			if(!empty($fp) && ( empty($host) || $_SERVER['SERVER_NAME']==$host ) && substr($fp,0,1)!='#' ){
+				
+				// clean path for local web development configurations that do not have a host alias
+				$remove = explode(DIRECTORY_SEPARATOR,SITE_PATH);
+				$fp = explode("/",parse_url($fp, PHP_URL_PATH));
+				
+				$tmp = '';
+				$dir = array();
+				$i=0;
+				foreach( $fp AS $p ){
+					if( !in_array($p,$remove) && !empty($p) ){
+						if($i>0){
+							$tmp.="/";
+						}
+						$tmp.=$p;
+						$i++;
+						
+						if( is_dir($tmp) ){
+							$dir[]=$p;
+						}
+					}
+				}
+				$fp 	= str_replace("/",DIRECTORY_SEPARATOR,SITE_PATH."/".$tmp);
+				$pub_fp	= str_replace("/",DIRECTORY_SEPARATOR,$_SERVER['PUBLISH_TO']."/".$tmp);
+				
+				
+				// check that file exist in current directory.
+				if( file_exists($fp) ){
+					
+					// make source hash
+					$src_hash = hash_file('md5', $fp);
+					
+					// check that file exist in publish directory
+					if( file_exists($pub_fp) ){
+						// check that files match.
+						$pub_hash = hash_file('md5', $pub_fp);
+						
+						if($src_hash!=$pub_hash){
+							$copy = true;
+						}
+					}
+					else{
+						$copy = true;
+					}
+					
+					if($copy){
+						// make missing directories
+						$pub_dir = $_SERVER['PUBLISH_TO'];
+						foreach($dir AS $d){
+							$pub_dir = $pub_dir.DIRECTORY_SEPARATOR.$d;
+							if( !is_dir($pub_dir) ){
+								mkdir($pub_dir,'0644');
+							}
+						}
+						
+						// copy file
+						$content = file_get_contents($fp);
+						$file = fopen($pub_fp,'w+'); // overwrite if out of sync
+						if( (fwrite($file,$content)) !== false){
+							echo "Copied: ".$fp." to ".$pub_fp."<br>";
+						}
+						else{
+							echo "Failed to copy: ".$fp." to ".$pub_fp."<br>";
+						}
+						fclose($file);
+						
+						$copy = false;
+					}
+				}
+				// else ignore
+			}
+			
+		} // verify_file()
 		
 		
 		private function set_glue(){ 
