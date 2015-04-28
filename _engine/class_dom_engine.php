@@ -167,9 +167,17 @@
 							}
 						}
 						
+						// check file mime type, requires fileinfo extension
+						$mode = 'w+';
+						$finfo = finfo_open(FILEINFO_MIME_TYPE);
+						$mime = finfo_file($finfo, $fp);
+						if(substr($mime,0,4)!="text"){
+							$mode = 'wb'
+						}
+						
 						// copy file
 						$content = file_get_contents($fp);
-						$file = fopen($pub_fp,'w+'); // overwrite if out of sync
+						$file = fopen($pub_fp,$mode); // overwrite if out of sync
 						if( (fwrite($file,$content)) !== false){
 							echo "Copied: ".$fp." to ".$pub_fp."<br>";
 						}
