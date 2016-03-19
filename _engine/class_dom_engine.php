@@ -172,7 +172,7 @@
 						$finfo = finfo_open(FILEINFO_MIME_TYPE);
 						$mime = finfo_file($finfo, $fp);
 						if(substr($mime,0,4)!="text"){
-							$mode = 'wb'
+							$mode = 'wb';
 						}
 						
 						// copy file

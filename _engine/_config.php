@@ -4,5 +4,23 @@
 	
 	$_SERVER['void_tags'] = array('area','base','basefont','br','col','!doctype','embed','hr','img','keygen','link','meta','param','source','track','wbr');
 	
+	/*
+		permit access to external dbs
+		name = general id of connection
+		[name]=>array(driver, host, dbname, user, pass, options)
+		
+		// for membership, the subscriber logs in
+		'member' => array('mysql', 'host', 'dbname',$user_name, $user_pass, array()) 
+	*/
 	
+	
+	
+	$db_user = array(
+		'guest' => array('mysql', 'host', 'dbname','guest_name', 'guest_pass', array()), // for anonomous, default no login
+		'module' => array('mysql', 'localhost', 'tag_magus','tag_magus', 'maGus1!', array()), // for module creation and automation
+		// set these as internal db roles
+		//'author' => array('mysql', 'dbname', 'host','author_name', 'module_pass', opts => array()), // for content authors
+		//'editor' => array('mysql', 'dbname', 'host','editor_name', 'editor_pass', opts => array()), // for content editors
+		//'admin' => array('mysql', 'dbname', 'host','admin_name', 'admin_pass', opts => array()), // for sys admin
+	);
 ?>
