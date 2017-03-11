@@ -1,10 +1,14 @@
+Status
+
+Tag Magus is idle right now. I started this project a while back but I have since discovered the MEAN stack and I am now exploring it to determine its use. I may in the future return to this project or change its design.
+
 So what is Tag Magus
 
 
-This is a framework designed to ease construction of a website while keeping itself outside of it. The result is a site that is lightweight. In a sense you could think of it as a compiler. Resources are collected and designed. Instructions are set for the engine and then you open a project page in a browser to create that page in the target directory. The files generated are either pure HTML or they are HTML with embedded PHP code for dynamic content.
+This is a framework designed to ease construction of a website while keeping itself outside of it. The result is a site that is lightweight. In a sense you could think of it as a generator. Resources are collected and designed. Instructions are set for the engine and then you open a project page in a browser to create that page in the target directory. The files generated are either pure HTML or they are HTML with embedded PHP code for dynamic content.
 
 
-Another way to look at this system is along the lines of its structure. In one directory you will have a project. This is where the framework resides and where the fragments of code, html, css, js, images, etc are collected or made that are used to build the pages of the target. The target is the output directory where the engine makes complete pages. These pages are what will make the website the world will visit.
+Another way to look at this system is along the lines of its structure. In one directory you will have a project or workspace. This is where the framework resides and where the fragments of code, html, css, js, images, etc are collected or made that are used to build the pages of the target. The target is the output directory where the engine makes complete pages. These pages are what make the website and the world will visit.
 
 
 This may sound like a publication system to some, but it is different in that only the sites structure is meant to be handled by the system. Content should be managed by the content modules, yet to be designed.
@@ -36,7 +40,7 @@ This pull and push happens across all members of a team with one member acting a
 When running a website where content is being added to a production server, it is easy for development servers to become out of sync. When the site is small it is not to big of a deal to magange this, but when the site has gigabytes of data spread out over multiple directories...a means to manage this for development work means being able to move this data down to local systems.
 
 
-I need a meathod to manage database schemas and the data they hold. This should not be an issue with MySQL as it already has a schema database which defines the other databases, so that takes care of the structure and the data can still be exported from the database itself. Of course I am aware I can simply do a database dump and that would work too. But I want to manage very large datasets and so a system to record changes like git does with files is ideal. 
+I need a method to manage database schemas and the data they hold. This should not be an issue with MySQL as it already has a schema database which defines the other databases, so that takes care of the structure and the data can still be exported from the database itself. Of course I am aware I can simply do a database dump and that would work too. But I want to manage very large datasets and so a system to record changes like git does with files is ideal. 
 
 
 
